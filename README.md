@@ -4,7 +4,7 @@ This LightWave Client sample application illustrates how to retrieve, validate, 
 A LightWave Client application might use the OAuth 2.0 Client Credentials Flow in the following scenario:
    
  + A Web service uses OAuth 2.0 access tokens provided by the Okta Identity Service to authorize access to the service. The Web service client must include the access token in web service requests in the standard HTTP Authorization header.
-
+  
 To implement the flow with LightWave Client:
 
  + For each operation that requires authorization, a mapping for the "Authorization" header is added to the LightWave Client API definition.
@@ -12,7 +12,7 @@ To implement the flow with LightWave Client:
  ```
  eyJraWQiOiJCNlE5c ..... Kg5NtjFLNeAQ
  ```
- + The LightWave Client application constructs the Authorization header value by prefixing the token string with "Bearer" and sets it as the value of the Authorization header field in rquest IPM to the CLIENT process.
+ + The LightWave Client application constructs the Authorization header value by prefixing the token string with "Bearer" and sets it as the value of the Authorization header field in the request IPM to the CLIENT process.
  +  The CLIENT process includes the header with the Bearer token in the request to the service, for example:
  ```
  Authorization: Bearer eyJraWQiOiJCNlE5c ..... Kg5NtjFLNeAQ
