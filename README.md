@@ -1,22 +1,26 @@
 # LightWave Client - Okta Client Credentials Flow
-This is a sample application that illustrates how to retrieve, validate, and revoke OAuth 2 access tokens using the [Okta Identity Service](www.okta.com). The sample application is a C program that retrieves a new token, validates it, and revokes it.
-
-The sample API illustrates how to manage access tokens withing the OAuth 2 Client Credentials Flow. A LightWave Client application might use this flow in the following scenario:
+This LightWave Client sample application illustrates how to retrieve, validate, and revoke OAuth 2.0 access tokens provided by the [Okta Identity Service](https://www.okta.com). The sample application is a C program that retrieves a new token, validates it, and revokes it.
+ 
+A LightWave Client application might use the OAuth 2.0 Client Credentials Flow in the following scenario:
    
- + A Web service uses the OAuth 2 access tokens to authorize access to the service. The web service client is required to provide the access token via the HTTP Authorization header.
- + A mapping for the "Authorization" header is added to the API definition for the LightWave Client application, for those operations that require it.
- + The LightWave Client application uses the Okta API to request an access token from the authorization server. The token is returned as a Base64 encoded string, for example:
+ + A Web service uses OAuth 2.0 access tokens provided by the Okta Identity Service to authorize access to the service. The Web service client must include the access token in web service requests in the standard HTTP Authorization header.
+
+To implement the flow with LightWave Client:
+
+ + For each operation that requires authorization, a mapping for the "Authorization" header is added to the LightWave Client API definition.
+ + The LightWave Client application uses the Okta API provided with this sample to request an access token from the authorization server. The token is returned as a Base64 encoded string, for example:
  ```
  eyJraWQiOiJCNlE5c ..... Kg5NtjFLNeAQ
  ```
- + The LightWave Client application constructs the Authorization header value by prefixing the token string with "Bearer" and sets it as the value of the Authorization header field in the CLIENT process request IPM. The CLIENT process includes the header with the Bearer token in the request to the service, for example:
+ + The LightWave Client application constructs the Authorization header value by prefixing the token string with "Bearer" and sets it as the value of the Authorization header field in rquest IPM to the CLIENT process.
+ +  The CLIENT process includes the header with the Bearer token in the request to the service, for example:
  ```
  Authorization: Bearer eyJraWQiOiJCNlE5c ..... Kg5NtjFLNeAQ
  ```
 
- The access token response from the authorization server includes an expiration time. The LightWave Client application must track the expiration time of the token and request a new token when the timer expires, or if the token is explicitely revoked.
+ Note that the access token response from the authorization server includes an expiration time. The LightWave Client application must track the expiration time of the token and request a new token when the timer expires.
 
-Note that although this sample was developed specifically for the Okta service, this API may be adapted for authorization servers provided by other identity providers or custom authorization servers.
+Although this sample was developed specifically for the Okta service, the API definition may be adapted for OAuth 2.0 authorization servers provided by other identity providers, or custom authorization servers.
 
 ## Prerequisites
 
