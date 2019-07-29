@@ -1,0 +1,18 @@
+?tacl macro
+
+== Set runtime environment. Customize this for your environment.
+ 
+#set #param pathmon-name    $NWOKT
+#set #param server-class    OKTA-CCF
+#set #param lwc-isv         $vol.subvol
+#set #param base-url        https://dev-999999.okta.com/oauth2/default/v1
+#set #param scope           "customScope otherScope"
+#set #param client-id       0oaz.....P356
+#set #param client-secret   ilIg.....sFHW
+
+
+
+  
+
+ 
+   

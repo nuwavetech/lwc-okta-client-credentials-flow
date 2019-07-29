@@ -1,0 +1,575 @@
+{
+  "name": "okta-client-credentials-flow",
+  "description": "Provides operations for implementing the OAuth 2.0 Client Credentials flow using Okta.com authorization servers.",
+  "version": 1, 
+  "id": "038d9a916a10061d7b8001010000012ef1",
+  "modificationTime": 1564422404,
+  "isBrief": false,
+  "operations": [
+    {
+      "path": "/introspect",
+      "methods": [
+        {
+          "api": {
+            "stringPadding": "zeros"
+          },
+          "request": {
+            "mappings": [
+              {
+                "source": {
+                  "type": "ipm",
+                  "data": "2048"
+                },
+                "target": {
+                  "type": "form",
+                  "value": "token"
+                }
+              },
+              {
+                "source": {
+                  "type": "constant",
+                  "data": "access_token"
+                },
+                "target": {
+                  "type": "form",
+                  "value": "token_type_hint"
+                }
+              }
+            ],
+            "contentType": "application/x-www-form-urlencoded",
+            "contentTypeIsCustom": false,
+            "acceptTypes": [
+              "*/*"
+            ]
+          },
+          "responses": [
+            {
+              "mappings": [
+                {
+                  "target": {
+                    "type": "ipm"
+                  },
+                  "source": {
+                    "type": "body",
+                    "value": "IntrospectResponse"
+                  }
+                }
+              ],
+              "httpStatus": "200",
+              "description": "Success"
+            },
+            {
+              "httpStatus": "*",
+              "description": "Error",
+              "mappings": [
+                {
+                  "target": {
+                    "type": "ipm"
+                  },
+                  "source": {
+                    "type": "body",
+                    "value": "ErrorResponse"
+                  }
+                }
+              ]
+            }
+          ],
+          "verb": "POST",
+          "alias": "IntrospectToken",
+          "description": "Return information about a token.",
+          "id": 2
+        }
+      ]
+    },
+    {
+      "path": "/revoke",
+      "methods": [
+        {
+          "api": {
+            "stringPadding": "zeros"
+          },
+          "request": {
+            "mappings": [
+              {
+                "source": {
+                  "type": "ipm",
+                  "data": "2048"
+                },
+                "target": {
+                  "type": "form",
+                  "value": "token"
+                }
+              },
+              {
+                "source": {
+                  "type": "constant",
+                  "data": "access_token"
+                },
+                "target": {
+                  "type": "form",
+                  "value": "token_type_hint"
+                }
+              }
+            ],
+            "contentType": "application/json",
+            "contentTypeIsCustom": false,
+            "acceptTypes": [
+              "*/*"
+            ]
+          },
+          "responses": [
+            {
+              "mappings": [],
+              "httpStatus": "200",
+              "description": "Success (no content)"
+            },
+            {
+              "httpStatus": "*",
+              "description": "Error",
+              "mappings": [
+                {
+                  "target": {
+                    "type": "ipm"
+                  },
+                  "source": {
+                    "type": "body",
+                    "value": "ErrorResponse"
+                  }
+                }
+              ]
+            }
+          ],
+          "verb": "POST",
+          "alias": "RevokeToken",
+          "description": "Revoke an access or refresh token.",
+          "id": 3
+        }
+      ]
+    },
+    {
+      "path": "/token",
+      "methods": [
+        {
+          "api": {
+            "stringPadding": "zeros"
+          },
+          "request": {
+            "mappings": [
+              {
+                "source": {
+                  "type": "constant",
+                  "data": "client_credentials"
+                },
+                "target": {
+                  "type": "form",
+                  "value": "grant_type"
+                }
+              },
+              {
+                "source": {
+                  "type": "ipm",
+                  "data": "256"
+                },
+                "target": {
+                  "type": "form",
+                  "value": "scope"
+                }
+              }
+            ],
+            "contentType": "application/x-www-form-urlencoded",
+            "contentTypeIsCustom": false,
+            "acceptTypes": [
+              "*/*"
+            ]
+          },
+          "responses": [
+            {
+              "mappings": [
+                {
+                  "target": {
+                    "type": "ipm"
+                  },
+                  "source": {
+                    "type": "body",
+                    "value": "TokenResponse"
+                  }
+                }
+              ],
+              "httpStatus": "200",
+              "description": "Success"
+            },
+            {
+              "httpStatus": "*",
+              "description": "Error catch all",
+              "mappings": [
+                {
+                  "target": {
+                    "type": "ipm"
+                  },
+                  "source": {
+                    "type": "body",
+                    "value": "ErrorResponse"
+                  }
+                }
+              ]
+            }
+          ],
+          "verb": "POST",
+          "alias": "GetToken",
+          "description": "Obtain an access and/or ID token by presenting an authorization grant or refresh token.",
+          "id": 1
+        }
+      ]
+    }
+  ],
+  "types": {
+    "type": {
+      "TokenResponse": {
+        "anonymous": false,
+        "elements": [
+          {
+            "name": "access_token",
+            "type": "string",
+            "size": 2048
+          },
+          {
+            "name": "token_type",
+            "type": "string",
+            "size": 128
+          },
+          {
+            "name": "expires_in",
+            "type": "int"
+          },
+          {
+            "name": "scope",
+            "type": "string",
+            "size": 256
+          },
+          {
+            "name": "refresh_token",
+            "type": "string",
+            "size": 256
+          },
+          {
+            "name": "id_token",
+            "type": "string",
+            "size": 2048
+          }
+        ]
+      },
+      "ErrorResponse": {
+        "anonymous": false,
+        "elements": [
+          {
+            "name": "error",
+            "type": "string",
+            "size": 256
+          },
+          {
+            "name": "error_description",
+            "type": "string",
+            "size": 256
+          }
+        ]
+      },
+      "IntrospectResponse": {
+        "anonymous": false,
+        "elements": [
+          {
+            "name": "active",
+            "type": "boolean"
+          },
+          {
+            "name": "token_type",
+            "type": "string",
+            "size": 32
+          },
+          {
+            "name": "scope",
+            "type": "string",
+            "size": 32
+          },
+          {
+            "name": "client_id",
+            "type": "string",
+            "size": 32
+          },
+          {
+            "name": "username",
+            "type": "string",
+            "size": 32
+          },
+          {
+            "name": "exp",
+            "type": "int"
+          },
+          {
+            "name": "iat",
+            "type": "int"
+          },
+          {
+            "name": "sub",
+            "type": "string",
+            "size": 32
+          },
+          {
+            "name": "aud",
+            "type": "string",
+            "size": 32
+          },
+          {
+            "name": "iss",
+            "type": "string",
+            "size": 52
+          },
+          {
+            "name": "jti",
+            "type": "string",
+            "size": 46
+          },
+          {
+            "name": "uid",
+            "type": "string",
+            "size": 32
+          }
+        ]
+      }
+    }
+  },
+  "generatedTypes": {
+    "WARNING": "These types are generated by LightWave Client and should not be manually edited.",
+    "type": {
+      "LightWaveRqHeader": {
+        "generated": true,
+        "lightwave": true,
+        "elements": [
+          {
+            "name": "rqCode",
+            "type": "short",
+            "size": 2
+          },
+          {
+            "name": "rqVersion",
+            "type": "unsignedShort",
+            "size": 2
+          },
+          {
+            "name": "rqTimeout",
+            "type": "unsignedInt",
+            "size": 4
+          },
+          {
+            "name": "reserved",
+            "type": "string",
+            "size": 24
+          }
+        ]
+      },
+      "LightWaveRpHeader": {
+        "generated": true,
+        "lightwave": true,
+        "elements": [
+          {
+            "name": "rpCode",
+            "type": "short",
+            "size": 2
+          },
+          {
+            "name": "httpStatus",
+            "type": "short",
+            "size": 2
+          },
+          {
+            "name": "infoCode",
+            "type": "short",
+            "size": 2
+          },
+          {
+            "name": "infoDetail",
+            "type": "short",
+            "size": 2
+          },
+          {
+            "name": "reserved",
+            "type": "string",
+            "size": 24
+          }
+        ]
+      },
+      "LightWaveErrorRp": {
+        "generated": true,
+        "lightwave": true,
+        "elements": [
+          {
+            "name": "LightWaveRpHeader",
+            "type": "LightWaveRpHeader"
+          },
+          {
+            "name": "errorSource",
+            "type": "int",
+            "size": 4
+          },
+          {
+            "name": "errorCode",
+            "type": "int",
+            "size": 4
+          },
+          {
+            "name": "errorSubcode",
+            "type": "int",
+            "size": 4
+          },
+          {
+            "name": "errorMessage",
+            "type": "string",
+            "size": 4096
+          }
+        ]
+      },
+      "IntrospectTokenRq": {
+        "generated": true,
+        "lightwave": false,
+        "isRequest": true,
+        "alias": "IntrospectToken",
+        "description": "Return information about a token.",
+        "operation": "POST /introspect",
+        "elements": [
+          {
+            "name": "LightWaveRqHeader",
+            "type": "LightWaveRqHeader"
+          },
+          {
+            "name": "token",
+            "type": "string",
+            "size": 2048
+          }
+        ]
+      },
+      "IntrospectToken200Rp": {
+        "generated": true,
+        "lightwave": false,
+        "isReply": true,
+        "elements": [
+          {
+            "name": "LightWaveRpHeader",
+            "type": "LightWaveRpHeader"
+          },
+          {
+            "name": "IntrospectResponse",
+            "type": "IntrospectResponse"
+          }
+        ]
+      },
+      "IntrospectTokenOtherRp": {
+        "generated": true,
+        "lightwave": false,
+        "isReply": true,
+        "elements": [
+          {
+            "name": "LightWaveRpHeader",
+            "type": "LightWaveRpHeader"
+          },
+          {
+            "name": "ErrorResponse",
+            "type": "ErrorResponse"
+          }
+        ]
+      },
+      "RevokeTokenRq": {
+        "generated": true,
+        "lightwave": false,
+        "isRequest": true,
+        "alias": "RevokeToken",
+        "description": "Revoke an access or refresh token.",
+        "operation": "POST /revoke",
+        "elements": [
+          {
+            "name": "LightWaveRqHeader",
+            "type": "LightWaveRqHeader"
+          },
+          {
+            "name": "token",
+            "type": "string",
+            "size": 2048
+          }
+        ]
+      },
+      "RevokeToken200Rp": {
+        "generated": true,
+        "lightwave": false,
+        "isReply": true,
+        "elements": [
+          {
+            "name": "LightWaveRpHeader",
+            "type": "LightWaveRpHeader"
+          }
+        ]
+      },
+      "RevokeTokenOtherRp": {
+        "generated": true,
+        "lightwave": false,
+        "isReply": true,
+        "elements": [
+          {
+            "name": "LightWaveRpHeader",
+            "type": "LightWaveRpHeader"
+          },
+          {
+            "name": "ErrorResponse",
+            "type": "ErrorResponse"
+          }
+        ]
+      },
+      "GetTokenRq": {
+        "generated": true,
+        "lightwave": false,
+        "isRequest": true,
+        "alias": "GetToken",
+        "description": "Obtain an access and/or ID token by presenting an authorization grant or refresh token.",
+        "operation": "POST /token",
+        "elements": [
+          {
+            "name": "LightWaveRqHeader",
+            "type": "LightWaveRqHeader"
+          },
+          {
+            "name": "scope",
+            "type": "string",
+            "size": 256
+          }
+        ]
+      },
+      "GetToken200Rp": {
+        "generated": true,
+        "lightwave": false,
+        "isReply": true,
+        "elements": [
+          {
+            "name": "LightWaveRpHeader",
+            "type": "LightWaveRpHeader"
+          },
+          {
+            "name": "TokenResponse",
+            "type": "TokenResponse"
+          }
+        ]
+      },
+      "GetTokenOtherRp": {
+        "generated": true,
+        "lightwave": false,
+        "isReply": true,
+        "elements": [
+          {
+            "name": "LightWaveRpHeader",
+            "type": "LightWaveRpHeader"
+          },
+          {
+            "name": "ErrorResponse",
+            "type": "ErrorResponse"
+          }
+        ]
+      }
+    }
+  }
+}
